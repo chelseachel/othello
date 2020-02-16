@@ -1,2 +1,1 @@
-# othello
-黑白棋 Othello 
+# Othello 黑白棋

@@ -3,6 +3,7 @@ let board, color, container, message;
 let canMove, turn;
 let eatY, eatX;
 init();
+document.getElementById('btn').addEventListener('click', init);
 
 function init () {
   board = [

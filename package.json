@@ -2,16 +2,19 @@
   "name": "Othello",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
-  "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-polyfill": "^6.26.0",
-    "webpack": "^3.0.0"
-  },
+  "private": true,
+  "dependencies": {},
   "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0"
+    "babel-loader": "^8.1.0",
+    "eslint": "^5.16.0",
+    "html-webpack-plugin": "^4.3.0",
+    "regenerator-runtime": "^0.13.5",
+    "webpack": "^4.0.0"
   },
   "scripts": {
     "build": "webpack"

@@ -93,7 +93,7 @@ function render () {
 
       // 落子成功，反方向吃子
       function move(tempY, tempX, oy, ox, dir, i) {
-        while(tempX != ox || tempY != oy) {
+        while (tempX != ox || tempY != oy) {
           tempX -= dir[i][1];
           tempY -= dir[i][0];
           board[tempY][tempX] = color;
@@ -102,14 +102,27 @@ function render () {
 
       // 改变落子角色
       function nextTurn () {
-        // 循环八个方向结束后，改变落子角色
-        if(turn === true) {
-          color = 3 - color; 
+        // 上一轮落子后，改变落子角色
+        if (turn === true) {
+          color = 3 - color;
           message.innerText = `${color === 1?"Black":"White"}'s move`;
         }
         turn = false;
-        // 遍历棋盘，判断是否有处落子
-        let mapMove = new Promise(resolve => {
+
+        mapMove(); // 遍历棋盘，判断是否有处落子，有则 turn 为 true
+        if (turn === false) { // 当一方无处落子，改变落子角色
+          color = 3 - color; 
+          message.innerText = `No legal move for ${color===1?"White":"Black"}\n${color===1?"Black":"White"}'s move`;
+          
+          mapMove();  // 再次遍历棋盘，判断另一方是否还可落子
+          if (turn === false) {
+            judgeResult(); // 当双方都无处落子，判断胜负
+          }
+        }    
+      }
+
+      // 遍历棋盘，判断是否有处落子
+      function mapMove () {
           for (let y = 0; y < 8; y++) {
             for (let x = 0; x < 8; x++) {
               if (board[y][x] !== 0) { // 如果此格已有棋子，返回
@@ -120,26 +133,10 @@ function render () {
               }
               if (turn === true) { // 有处落子，返回
                 return;
-              }
+              } 
             }
           }
-          resolve();
-        }).then(() => {
-          return new Promise(resolve => {
-            if (turn === false) {
-              color = 3 - color; // 当一方无处落子，改变落子角色
-              message.innerText = `No legal move for ${color===1?"White":"Black"}\n${color===1?"Black":"White"}'s move`;
-              resolve();
-            }
-          })
-        }).then(() => {
-          return mapMove()  // 再次遍历棋盘，判断是否还可落子
-        }).then(() => {
-          if (turn === false) {
-            judgeResult(); // 当双方都无处落子，判断胜负
-          }
-        })     
-      }
+        }
 
       // 判断胜负
       function judgeResult () {
@@ -162,7 +159,6 @@ function render () {
           message.innerText = `Black: ${blackNum} vs White: ${whiteNum}\nThe winner is White!`;
         }
       } 
-
     }
   }
 }
